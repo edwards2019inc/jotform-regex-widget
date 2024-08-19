@@ -30,7 +30,7 @@
     <input type="text" id="pattern" value='.*(\d+).*'><br>
     <span id="replacement_label">Replacement</span>
     <input type="text" id="replacement" value="$1"><br>
-    <span id="output_label">Output:</span>&nbsp;<span id="output"></span><br>
+    <span id="output_label">Output:</span>&nbsp;<span id="regex_widget_output"></span><br>
     <div class="button" id="evaluate" onclick="onPopulate();">
       <span style="font-weight:bold;font-size:18px;">Evaluate</span>
     </div>
@@ -45,7 +45,7 @@
       let regex = RegExp(regexPattern, "g");
       resultData = $("#string_input").val().replace(regex, regexReplace);
       console.log(resultData);
-      $("#output").innerText = resultData;
+      $("#regex_widget_output").innerText = resultData;
       JFCustomWidget.sendData({ valid: true, value: resultData });
     }
     //always subscribe to ready event and implement widget related code
