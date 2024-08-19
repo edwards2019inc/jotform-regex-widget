@@ -50,8 +50,8 @@
     //inside callback function , it is the best practice while developing widgets
     JFCustomWidget.subscribe("ready", function (formid, value) {
       console.log("ready: " + JSON.stringify(formid) + ", " + JSON.stringify(value));
-      $("#pattern").val(JFCustomWidget.getWidgetSetting('Regex Pattern'));
-      $("#replacement").val(JFCustomWidget.getWidgetSetting('Replacement Pattern'));
+      $("#pattern").val(JFCustomWidget.getWidgetSetting('RegexPattern'));
+      $("#replacement").val(JFCustomWidget.getWidgetSetting('ReplacementPattern'));
 
       //subscribe to form submit event
       JFCustomWidget.subscribe("submit", function () {
@@ -67,8 +67,8 @@
         //logStatusMessage("populate: " + JSON.stringify(data));
         console.log("populate: " + JSON.stringify(data));
         $("#string_input").val(data.value);
-        $("#pattern").val(JFCustomWidget.getWidgetSetting('Regex Pattern'));
-        $("#replacement").val(JFCustomWidget.getWidgetSetting('Replacement Pattern'));
+        $("#pattern").val(JFCustomWidget.getWidgetSetting('RegexPattern'));
+        $("#replacement").val(JFCustomWidget.getWidgetSetting('ReplacementPattern'));
         onPopulate();
       });
     });
