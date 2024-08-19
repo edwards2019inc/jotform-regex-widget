@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <style>
+    #div.status_msg {
+      background: #CCCCCC;
+    }
+
+    div.button {
+      padding: 10px;
+      border: 2px solid black;
+      cursor: pointer;
+      max-width: 150px;
+      text-align: center;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <div id="statusBar"></div>
+    <h3>Regex Widget</h3>
+    <span id="string_input_label">Input</span>
+    <input type="text" id="string_input" value='{"nums":[1,2,3,4,5]}'><br>
+    <span id="pattern_label">Pattern</span>
+    <input type="text" id="pattern" value='{"nums":[1,2,3,4,5]}'><br>
+    <span id="replacement_label">Replacement</span>
+    <input type="text" id="replacement" value=""><br>
+    <div class="button" id="evaluate" onclick="onPopulate();">
+      <span style="font-weight:bold;font-size:18px;">Evaluate</span>
+    </div>
+  </div>
+  <script type="text/javascript">
+    regexPattern = "[^\\d]*(\\d+)[^\\d]*";
+    regexReplace = "$1"
+    resultData = "";
+    function onPopulate() {
+      regexPattern = $("#pattern").val();
+      regexReplace = $("#replacement").val();
+      let regex = RegExp(regexPattern, "g");
+      resultData = $("#string_input").val().replace(regex, regexReplace);
+      console.log(resultData);
+      JFCustomWidget.sendData({ valid: true, value: resultData });
+    }
+    //always subscribe to ready event and implement widget related code
+    //inside callback function , it is the best practice while developing widgets
+    JFCustomWidget.subscribe("ready", function (formid, value) {
+      console.log("ready: " + JSON.stringify(formid) + ", " + JSON.stringify(value));
+      $("#pattern").val(JFCustomWidget.getWidgetSetting('Regex Pattern'));
+      $("#replacement").val(JFCustomWidget.getWidgetSetting('Replacement Pattern'));
+
+      //subscribe to form submit event
+      JFCustomWidget.subscribe("submit", function () {
+        var msg = {
+          valid: true,
+          value: resultData
+        };
+        // send value to JotForm
+        console.log("sendSubmit in jsonpath widget");
+        JFCustomWidget.sendSubmit(msg);
+      });
+      JFCustomWidget.subscribe('populate', function (data) {
+        //logStatusMessage("populate: " + JSON.stringify(data));
+        console.log("populate: " + JSON.stringify(data));
+        $("#string_input").val(data.value);
+        $("#pattern").val(JFCustomWidget.getWidgetSetting('Regex Pattern'));
+        $("#replacement").val(JFCustomWidget.getWidgetSetting('Replacement Pattern'));
+        onPopulate();
+      });
+    });
+    $(document).ready(function () {
+
+    });
+  </script>
+</body>
+
+</html>
