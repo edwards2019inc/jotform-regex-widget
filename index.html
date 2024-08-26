@@ -50,11 +50,15 @@
     }
     //always subscribe to ready event and implement widget related code
     //inside callback function , it is the best practice while developing widgets
-    JFCustomWidget.subscribe("ready", function (formid, value) {
-      console.log("ready: " + JSON.stringify(formid) + ", " + JSON.stringify(value));
+    JFCustomWidget.subscribe("ready", function (initData) {
+      console.log("ready: " + JSON.stringify(initData));
       $("#pattern").val(JFCustomWidget.getWidgetSetting('RegexPattern'));
       $("#replacement").val(JFCustomWidget.getWidgetSetting('ReplacementPattern'));
-
+      if(initData.state == "oldstate"){
+        if(initData.value){
+          $("#string_input").val(initData.value);
+        }
+      }
       //subscribe to form submit event
       JFCustomWidget.subscribe("submit", function () {
         var msg = {
