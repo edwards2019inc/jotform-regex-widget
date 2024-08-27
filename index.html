@@ -54,7 +54,7 @@
       console.log("ready: " + JSON.stringify(initData));
       $("#pattern").val(JFCustomWidget.getWidgetSetting('RegexPattern'));
       $("#replacement").val(JFCustomWidget.getWidgetSetting('ReplacementPattern'));
-      if(initData.state == "oldstate"){
+      if(initData.state == "oldvalue"){
         if(initData.value){
           $("#string_input").val(initData.value);
           onPopulate();
